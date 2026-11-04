@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Conditional & Modals – Unit 2, Lesson 5</title>
+<style>
+:root{--ink:#1d2b3a;--bg:#e6f6ea;--card:#fff;--g:#2fb35f;--r:#e5484d;--y:#ffc233;--b:#2b7de9}
+@media (prefers-color-scheme:dark){:root{--ink:#f1f5f9;--bg:#10231a;--card:#1b3326}}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;background:var(--bg);color:var(--ink);padding:14px;min-height:100vh;font-size:22px}
+.wrap{max-width:900px;margin:auto}
+.head{background:var(--card);border:4px solid var(--ink);border-radius:20px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.head h1{font-size:24px;margin:0}
+.dots{display:flex;gap:6px;margin-top:10px;justify-content:center}
+.dots i{width:26px;height:12px;border-radius:8px;background:#0003}
+.dots i.cur{background:var(--y)}.dots i.ok{background:var(--g)}.dots i.no{background:var(--r)}
+.panel{background:var(--card);border:4px solid var(--ink);border-radius:24px;margin-top:12px;padding:20px;animation:pop .4s}
+.emo{font-size:70px;text-align:center;animation:float 2.2s infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes pop{0%{transform:scale(.94);opacity:.5}100%{transform:scale(1);opacity:1}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.q{font-size:28px;font-weight:700;line-height:1.5;text-align:center;margin:8px 0 16px}
+.q b{display:inline-block;min-width:140px;border-bottom:4px solid var(--ink);color:var(--b)}
+.opts{display:grid;gap:12px}
+.o{border:4px solid var(--ink);background:#fff;color:#1d2b3a;font:inherit;font-weight:800;font-size:26px;padding:16px;border-radius:18px;cursor:pointer;box-shadow:0 6px 0 var(--ink);transition:.15s;text-align:center}
+.o:active{transform:translateY(3px);box-shadow:0 3px 0 var(--ink)}
+.o.ok{background:#c9f5d6;animation:pop .5s}
+.o.no{background:#ffd3d5;animation:shake .4s}
+.o:disabled{cursor:default}
+.fb{margin-top:16px;padding:14px;border-radius:16px;font-size:22px;line-height:1.5;display:none}
+.fb.ok{display:block;background:#c9f5d6;color:#10381f}
+.fb.no{display:block;background:#ffe0e1;color:#5a1215}
+.btn{display:block;margin:16px auto 0;border:4px solid var(--ink);background:var(--g);color:#fff;font:inherit;font-weight:900;font-size:26px;padding:12px 36px;border-radius:40px;cursor:pointer;box-shadow:0 6px 0 var(--ink)}
+.rule{border:3px dashed var(--ink);border-radius:16px;padding:12px 16px;margin:10px 0;font-size:22px;line-height:1.6}
+.rule code{background:#ffe9a8;color:#1d2b3a;padding:1px 8px;border-radius:8px;font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:21px}
+td{padding:6px 8px;border-bottom:2px solid #0002}
+.foot{text-align:center;margin:16px 0;font-weight:700}
+.fx{position:fixed;pointer-events:none;font-size:34px;animation:fly 1.4s ease-out forwards;z-index:9}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(360deg);opacity:0}}
+.score{font-size:80px;font-weight:900;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="head"><h1>🌿 First Conditional & Modals</h1><span>Unit 2 · Lesson 5 · Grade 7</span><button class="o" id="snd" style="font-size:18px;padding:4px 12px;box-shadow:none">🔊</button></div>
+ <div class="dots" id="dots"></div>
+ <div class="panel" id="game"></div>
+ <div class="foot">🐾 Created by T.Badria Alfalahi 🐾</div>
+</div>
+<script>
+const Q=[
+ {e:"🦁🐾",s:"There are fresh lion footprints by the river, and the zebras are running away. A lion ___ be near the river.",o:["must","can't","musts"],a:0,
+  x:"The evidence is very strong, so we are almost sure. Use <b>must + base verb</b>. We never add -s after a modal."},
+ {e:"🐧🏜️",s:"Penguins need cold ice and fish. The desert is very hot and dry. A penguin ___ in the desert.",o:["must live","can't live","can't living"],a:1,
+  x:"We are sure it is impossible. Use <b>can't + base verb</b>. After a modal we use the base verb (live), not -ing."},
+ {e:"⛅🌧️",s:"The sky is half grey and half sunny. I am not sure about the weather. It ___ this afternoon.",o:["must rain","might rain","might to rain"],a:1,
+  x:"“I am not sure” means it is possible. Use <b>might + base verb</b>. We do not use “to” after a modal."},
+ {e:"🌱🥀",s:"The school garden is very dry and the sun is hot. If we don't water the plants, they ___.",o:["will die","won't die","will dies"],a:0,
+  x:"No water + hot sun = plants die. First conditional: <b>If + present simple, will + base verb</b>."},
+ {e:"🐝🌙",s:"Bees sleep at night and the flowers are closed. If you visit the garden at midnight, the bees ___ nectar.",o:["will collect","won't collect","won't collecting"],a:1,
+  x:"At night the bees are asleep, so the result is negative. Use <b>won't + base verb</b>."},
+ {e:"🦓🚌",s:"Ms. Huda says, “Maybe we will visit the zoo next week, but the bus is not booked yet.” We ___ the zoo.",o:["may visit","can't visit","may visiting"],a:0,
+  x:"“Maybe” and “not booked yet” mean it is possible, not sure. Use <b>may + base verb</b>."},
+ {e:"🌸🥕",s:"For our school garden, we ___ flowers or vegetables. It is our choice.",o:["must plant","could plant","can't plant"],a:1,
+  x:"“Or” and “our choice” show two possible ideas. Use <b>could + base verb</b>."},
+ {e:"☔👧",s:"Salma is holding a wet umbrella, and her shoes are very wet. It ___ outside.",o:["can't be raining","must be raining","must being raining"],a:1,
+  x:"Wet umbrella + wet shoes is strong evidence, so we are almost sure. Use <b>must</b>. (“must be raining” is correct; modals never take -ing right after them.)"},
+ {e:"📚🚫",s:"The library door has a sign: “Closed today.” Students ___ books today.",o:["must borrow","can't borrow","can't to borrow"],a:1,
+  x:"The library is closed, so it is impossible. Use <b>can't + base verb</b>, without “to”."},
+ {e:"🐇🦊",s:"Foxes hunt rabbits and they are very fast. If the rabbit sees the fox, it ___ away quickly.",o:["will run","won't run","will running"],a:0,
+  x:"Foxes are dangerous, so the rabbit runs. <b>If + present simple, will + base verb</b>."}
+];
+let i=0,score=0,sound=true,ac,locked=false,res=[];
+const G=document.getElementById('game'),D=document.getElementById('dots');
+function beep(f,d,t='sine',v=.15,w=0){if(!sound)return;ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+ const o=ac.createOscillator(),g=ac.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(ac.destination);
+ const s=ac.currentTime+w;g.gain.exponentialRampToValueAtTime(.001,s+d);o.start(s);o.stop(s+d);}
+const sOK=()=>[523,659,784].forEach((f,k)=>beep(f,.18,'triangle',.18,k*.09));
+const sBAD=()=>beep(150,.3,'sawtooth',.12);
+const sWIN=()=>[523,659,784,1047,784,1047,1319].forEach((f,k)=>beep(f,.2,'triangle',.18,k*.12));
+document.getElementById('snd').onclick=e=>{sound=!sound;e.target.textContent=sound?'🔊':'🔇'};
+function burst(el,em){const r=el.getBoundingClientRect();for(let k=0;k<10;k++){const s=document.createElement('span');s.className='fx';s.textContent=em[k%em.length];
+ s.style.left=r.left+r.width/2+'px';s.style.top=r.top+r.height/2+'px';s.style.setProperty('--x',(Math.random()*240-120)+'px');s.style.setProperty('--y',(Math.random()*-220-20)+'px');
+ document.body.appendChild(s);setTimeout(()=>s.remove(),1500);}}
+function dots(){D.innerHTML=Q.map((_,k)=>`<i class="${res[k]===1?'ok':res[k]===0?'no':k===i?'cur':''}"></i>`).join('')}
+function start(){i=0;score=0;res=[];dots();
+ G.innerHTML=`<div class="emo">🐾🌳🏫</div><h2 style="text-align:center;margin:6px">Quick Rules</h2>
+ <div class="rule"><b>Structure:</b> <code>Subject + modal + base verb + object</code><br>Example: The students <code>may plant</code> a tree.</div>
+ <div class="rule"><table>
+ <tr><td><code>must</code></td><td>almost sure it is true</td></tr>
+ <tr><td><code>can't</code></td><td>almost sure it is not true</td></tr>
+ <tr><td><code>may / might / could</code></td><td>possible, not sure</td></tr>
+ <tr><td><code>If + present, will / won't</code></td><td>real result in the future</td></tr></table></div>
+ <button class="btn" id="go">Start ▶</button>`;
+ document.getElementById('go').onclick=()=>{sOK();show()};}
+function show(){
+ const q=Q[i];locked=false;dots();
+ G.innerHTML=`<div class="emo">${q.e}</div><div style="text-align:center;font-weight:700">Question ${i+1} of 10</div>
+ <div class="q">${q.s.replace('___','<b>&nbsp;</b>')}</div>
+ <div class="opts">${q.o.map((t,k)=>`<button class="o" data-k="${k}">${t}</button>`).join('')}</div>
+ <div class="fb" id="fb"></div><div id="nx"></div>`;
+ G.querySelectorAll('.o').forEach(b=>b.onclick=()=>pick(b));
+}
+function pick(b){
+ if(locked)return;locked=true;const q=Q[i],k=+b.dataset.k,fb=document.getElementById('fb');
+ const btns=[...G.querySelectorAll('.o')];btns.forEach(x=>x.disabled=true);
+ btns[q.a].classList.add('ok');
+ const full=q.s.replace('___','<u>'+q.o[q.a]+'</u>');
+ if(k===q.a){score++;res[i]=1;sOK();burst(b,['⭐','✨','🎉','🐾']);fb.className='fb ok';fb.innerHTML=`✅ <b>Great!</b> ${q.x}`;}
+ else{res[i]=0;b.classList.add('no');sBAD();fb.className='fb no';fb.innerHTML=`❌ <b>Not quite.</b> Correct answer: <b>${q.o[q.a]}</b>. ${q.x}`;}
+ document.querySelector('.q').innerHTML=full;
+ dots();
+ document.getElementById('nx').innerHTML=`<button class="btn" id="nb">${i<9?'Next ▶':'See my score 🏆'}</button>`;
+ document.getElementById('nb').onclick=()=>{i++;i<10?show():finish()};
+}
+function finish(){
+ i=10;dots();const em=score>=9?'🏆🌟':score>=6?'👏🌿':'💪🐢';
+ const msg=score>=9?'Excellent!':score>=6?'Good work!':'Keep practising!';
+ G.innerHTML=`<div class="emo">${em}</div><div class="score">${score} / 10</div><h2 style="text-align:center">${msg}</h2>
+ <button class="btn" id="again">Play again 🔄</button>`;
+ if(score>=6){sWIN();for(let k=0;k<5;k++)setTimeout(()=>burst(G,['🎉','⭐','🐾','🏆','✨']),k*300);}else sBAD();
+ document.getElementById('again').onclick=start;
+}
+start();
+</script>
+</body>
+</html>
